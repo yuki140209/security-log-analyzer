@@ -1,0 +1,19 @@
+SECURITY LOG ANALYSIS REPORT
+========================================
+
+Total log entries analyzed: 12
+Failed Login Summary:
+IP 45.33.32.156: 5 failed attempt(s)
+IP 203.0.113.5: 2 failed attempt(s)
+Suspicious IPs (Possible Brute-Force):
+45.33.32.156 had 5 failed login attempts
+Compromise Alerts:
+2026-09-01 23:58:02 LOGIN SUCCESS user=admin ip=45.33.32.156
+Unusual Time Activity:
+2026-09-01 23:58:02 LOGIN SUCCESS user=admin ip=45.33.32.156
+Overall Severity by IP:
+IP 203.0.113.5: INFO severity
+IP 45.33.32.156: HIGH severity
+
+=== AI-Generated Summary ===
+The IP address 45.33.32.156 tried to log in five times and then succeeded in accessing the admin account just before midnight, which is a clear sign of a possible brute‑force attack. Because this activity occurred at an unusual time and was flagged as high severity, we should immediately lock the admin account, force a password reset, and block that IP address from the network. Afterward, review the admin account’s recent activity for any unauthorized changes, and add additional monitoring or multi‑factor authentication to prevent future attempts.

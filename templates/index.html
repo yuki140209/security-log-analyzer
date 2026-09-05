@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <title>🪷 LotusGuard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffd6e8 0%, #ffe9f3 50%, #d9f7e6 100%);
+            color: #1e5631;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 30px 20px 80px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-size: 2.4em;
+            font-weight: 800;
+            color: #d6336c;
+            margin-bottom: 6px;
+        }
+
+        .hero p {
+            font-size: 1.05em;
+            color: #2f9e5c;
+            font-weight: 600;
+        }
+
+        .user-bar {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .user-bar a {
+            color: #d6336c;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(214, 51, 108, 0.12);
+            border: 2px solid #ffe0ec;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #d6336c;
+            font-size: 1.3em;
+        }
+
+        .card p.subtitle {
+            color: #2f9e5c;
+            font-weight: 600;
+            margin-top: -8px;
+            font-size: 0.92em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #f06292, #d6336c);
+            color: #ffffff;
+            border: none;
+            padding: 12px 26px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            box-shadow: 0 4px 12px rgba(214, 51, 108, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(214, 51, 108, 0.45);
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #66bb8a, #2f9e5c);
+            padding: 6px 16px;
+            font-size: 13px;
+            box-shadow: 0 3px 8px rgba(47, 158, 92, 0.35);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ff8a8a, #d6336c);
+            padding: 6px 16px;
+            font-size: 13px;
+            box-shadow: 0 3px 8px rgba(214, 51, 108, 0.35);
+        }
+
+        input[type="file"] {
+            margin-bottom: 16px;
+            color: #2f9e5c;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            flex: 1;
+            min-width: 140px;
+            background: linear-gradient(135deg, #fff0f6, #ffe3f0);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            border: 2px solid #ffc2dd;
+        }
+
+        .stat-box .num {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #d6336c;
+            display: block;
+        }
+
+        .stat-box .label {
+            font-size: 0.8em;
+            color: #2f9e5c;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 14px;
+            color: #2f9e5c;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 14px;
+            background: #fff8fb;
+            font-size: 0.95em;
+        }
+
+        tr td:first-child { border-radius: 10px 0 0 10px; }
+        tr td:last-child { border-radius: 0 10px 10px 0; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.78em;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-HIGH { background: #ffe0e6; color: #d6336c; }
+        .badge-MEDIUM { background: #fff3d6; color: #e67e22; }
+        .badge-LOW { background: #fff9c4; color: #a89000; }
+        .badge-INFO { background: #d9f7e6; color: #2f9e5c; }
+
+        #loading3, #loading4 {
+            display: none;
+            color: #d6336c;
+            font-weight: 600;
+        }
+
+        #loading3::after, #loading4::after {
+            content: "🌸";
+            display: inline-block;
+            animation: spin 1.2s linear infinite;
+            margin-left: 6px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        #upload-ai-summary, #live-summary-text {
+            background: #f0fbf4;
+            border: 2px dashed #2f9e5c;
+            padding: 16px;
+            border-radius: 14px;
+            margin-top: 16px;
+            white-space: pre-wrap;
+            font-size: 0.95em;
+        }
+
+        a { color: #2f9e5c; }
+
+        .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🪷 LotusGuard</h1>
+        <p>Spot the sneaky logins before they cause trouble ✨</p>
+    </div>
+
+    <div class="user-bar">👋 Logged in as <strong>{{ user_email }}</strong> · <a href="/logout">Log out</a></div>
+
+    <div class="card">
+        <h2>🔴 Live Login Monitor</h2>
+        <p class="subtitle">Tracks real login attempts to this website — yours included!</p>
+        <button onclick="runLiveMonitor()">⚡ Refresh Live Monitor</button>
+        <p id="loading4">Checking live activity</p>
+        <div id="live-results" style="display:none;">
+            <p id="live-summary-text"></p>
+            <table>
+                <thead><tr><th>IP Address</th><th>Username</th><th>Attempts</th><th>Severity</th></tr></thead>
+                <tbody id="live-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📁 Upload Your Log File</h2>
+        <p class="subtitle">Drop in .txt, .log, .json, .csv, or .zip — we'll figure it out!</p>
+        <input type="file" id="fileInput">
+        <br>
+        <button onclick="uploadAndAnalyze()">🔍 Analyze File</button>
+        <p id="loading3">Analyzing your file</p>
+
+        <div id="upload-results" style="display:none;">
+            <div class="stats-row" id="stats-row"></div>
+            <table>
+                <thead><tr><th>IP Address</th><th>Username</th><th>Attempts</th><th>Severity</th></tr></thead>
+                <tbody id="upload-table-body"></tbody>
+            </table>
+            <h2>🤖 AI Summary</h2>
+            <div id="upload-ai-summary"></div>
+        </div>
+    </div>
+
+    {% if history %}
+    <div class="card">
+        <h2>📜 Your Recent Analyses</h2>
+        <table>
+            <thead><tr><th>File</th><th>Total IPs</th><th>High</th><th>When</th><th></th></tr></thead>
+            <tbody>
+                {% for entry in history %}
+                <tr>
+                    <td>{{ entry.filename }}</td>
+                    <td>{{ entry.total_ips }}</td>
+                    <td>{{ entry.high_severity_count }}</td>
+                    <td>{{ entry.timestamp }}</td>
+                    <td>
+                        <button class="view-btn" onclick="viewHistory({{ loop.index0 }})">View</button>
+                        <button class="delete-btn" onclick="deleteHistory({{ loop.index0 }}, this)">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <script>
+        function badgeHtml(severity) {
+            return "<span class='badge badge-" + severity + "'>" + severity + "</span>";
+        }
+
+        async function runLiveMonitor() {
+            document.getElementById("loading4").style.display = "block";
+            document.getElementById("live-results").style.display = "none";
+
+            const response = await fetch("/live-monitor");
+            const data = await response.json();
+
+            document.getElementById("loading4").style.display = "none";
+            document.getElementById("live-results").style.display = "block";
+
+            if (data.message) {
+                document.getElementById("live-summary-text").innerText = data.message;
+            } else {
+                document.getElementById("live-summary-text").innerText = "🔎 Total unique IPs: " + data.total_entries;
+            }
+
+            const tableBody = document.getElementById("live-table-body");
+            tableBody.innerHTML = "";
+            for (const item of data.results) {
+                const row = document.createElement("tr");
+                row.innerHTML = "<td>" + item.ip + "</td><td>" + item.username + "</td><td>" + item.count + "</td><td>" + badgeHtml(item.severity) + "</td>";
+                tableBody.appendChild(row);
+            }
+        }
+
+        async function uploadAndAnalyze() {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                alert("Please choose a file first! 📂");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("logfile", fileInput.files[0]);
+
+            document.getElementById("loading3").style.display = "block";
+            document.getElementById("upload-results").style.display = "none";
+
+            const response = await fetch("/upload-analysis", { method: "POST", body: formData });
+            const data = await response.json();
+
+            document.getElementById("loading3").style.display = "none";
+            document.getElementById("upload-results").style.display = "block";
+
+            if (data.error) {
+                document.getElementById("upload-ai-summary").innerText = "⚠️ " + data.error;
+                document.getElementById("upload-table-body").innerHTML = "";
+                document.getElementById("stats-row").innerHTML = "";
+                return;
+            }
+
+            renderUploadResults(data);
+        }
+
+        async function viewHistory(index) {
+            const response = await fetch("/view-history/" + index);
+            const data = await response.json();
+
+            document.getElementById("upload-results").style.display = "block";
+            window.scrollTo({ top: document.getElementById("upload-results").offsetTop - 20, behavior: "smooth" });
+
+            if (data.error) {
+                document.getElementById("upload-ai-summary").innerText = "⚠️ " + data.error;
+                return;
+            }
+
+            renderUploadResults(data);
+        }
+
+        async function deleteHistory(index, buttonEl) {
+            if (!confirm("Delete this analysis from your history?")) {
+                return;
+            }
+
+            const response = await fetch("/delete-history/" + index, { method: "POST" });
+            const data = await response.json();
+
+            if (data.success) {
+                const row = buttonEl.closest("tr");
+                row.remove();
+            } else {
+                alert("Could not delete: " + (data.error || "unknown error"));
+            }
+        }
+
+        function renderUploadResults(data) {
+            const highCount = data.results.filter(r => r.severity === "HIGH").length;
+
+            let statsHtml = "";
+            statsHtml += "<div class='stat-box'><span class='num'>" + data.total_entries + "</span><span class='label'>Total IPs</span></div>";
+            statsHtml += "<div class='stat-box'><span class='num'>" + highCount + "</span><span class='label'>High Severity</span></div>";
+            document.getElementById("stats-row").innerHTML = statsHtml;
+
+            const tableBody = document.getElementById("upload-table-body");
+            tableBody.innerHTML = "";
+            for (const item of data.results) {
+                const row = document.createElement("tr");
+                row.innerHTML = "<td>" + item.ip + "</td><td>" + item.username + "</td><td>" + item.count + "</td><td>" + badgeHtml(item.severity) + "</td>";
+                tableBody.appendChild(row);
+            }
+
+            let summaryText = data.ai_summary || "";
+            if (data.truncated) {
+                summaryText += "\n\n(Showing top 500 IPs by attempt count)";
+            }
+            document.getElementById("upload-ai-summary").innerText = summaryText;
+        }
+    </script>
+</body>
+</html>
